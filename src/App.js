@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      pizzas: []
     }
   }
 
@@ -20,8 +20,9 @@ class App extends Component {
 
     function success(pos) {
       let crd = pos.coords;
-      this.setState(lat:crd.latitude);
-      this.setState(lon:crd.longitude);
+      this.setState({lat:crd.latitude,
+        lon:crd.longitude});
+
       console.log(crd)
     }
 
@@ -29,7 +30,7 @@ class App extends Component {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
 
-    navigator.geolocation.getCurrentPosition(success, error, options)
+    navigator.geolocation.getCurrentPosition(success.bind(this), error, options)
   }
 
   render() {
