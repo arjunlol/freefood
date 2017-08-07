@@ -7,7 +7,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pizzas: []
+      pizzas: [],
+      lat: null,
+      lon: null,
     }
   }
 
@@ -22,8 +24,10 @@ class App extends Component {
       let crd = pos.coords;
       this.setState({lat:crd.latitude,
         lon:crd.longitude});
-
-      console.log(crd)
+      fetch(`https://floating-castle-83222.herokuapp.com/food/${crd.latitude}/${crd.longitude}`, {credentials: 'include', mode: 'cors', 'Access-Control-Allow-Credentials': true })
+        .then((pizzas) => {
+          this.setState({pizzas})
+        })
     }
 
     function error(err) {
@@ -40,9 +44,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <PizzaList pizzas={this.state.pizzas}/>
       </div>
     );
   }
