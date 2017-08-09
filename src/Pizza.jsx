@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import { CollapsibleItem } from 'react-materialize'
 
-class PizzaList extends Component{
+class Pizza extends Component{
 
   render() {
     return (
-      <div>
-        </p>{this.props.pizza.venue}</p>
-      </div>
+      <CollapsibleItem header={this.props.pizza.name} icon='local_pizza'>
+        PIZZA GET YOUR PIZZA
+      </CollapsibleItem>
     )
   }
 };
 
-export default PizzaList
+export default Pizza
