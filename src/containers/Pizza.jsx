@@ -23,7 +23,6 @@ class Pizza extends Component{
 
   _findDate = (date) => {
     let d = new Date(date);
-    console.log(d)
     return d.toLocaleString();
   }
 };
