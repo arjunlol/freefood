@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { CollapsibleItem, Row, Col, Divider } from 'react-materialize'
+import Map from './Map.jsx';
 require('datejs');
 
-class Pizza extends Component{
+class Food extends Component{
 
   render() {
     return (
-      <CollapsibleItem header={this.props.pizza.name} icon='local_pizza'>
+      <CollapsibleItem header={this.props.food.name} icon='local_pizza'>
         <Row>
           <Col s={8}>
-            <span dangerouslySetInnerHTML={{__html:this.props.pizza.description}}></span>
+            <span dangerouslySetInnerHTML={{__html:this.props.food.description}}></span>
           </Col>
           <Col s={4}>
-            {this._findDate(this.props.pizza.time)}
+            {this._findDate(this.props.food.time)}
             <Divider/>
-            {this.props.pizza.venue.address_1}
+            {this.props.food.venue.address_1}
+            <Map/>
           </Col>
         </Row>
       </CollapsibleItem>
@@ -27,4 +29,4 @@ class Pizza extends Component{
   }
 };
 
-export default Pizza
+export default Food

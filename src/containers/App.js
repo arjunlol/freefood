@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PizzaList from './PizzaList.jsx';
+import FoodList from './FoodList.jsx';
 import '../styles/App.css';
 import { connect } from 'react-redux';
 import * as Actions from '../actions/index';
@@ -34,7 +34,7 @@ class App extends Component {
             <button onClick={() => this.props.actions.setFoodFilter('beer')}>BEER</button>
           </div>
           <div>
-            <PizzaList pizzas={this.props.filter === 'pizza' ? this.props.pizzas: this.props.beers}/>
+            <FoodList foods={this.props.filter === 'pizza' ? this.props.pizzas: this.props.beers}/>
           </div>
         </div>
     );
