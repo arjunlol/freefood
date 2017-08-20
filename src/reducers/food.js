@@ -1,6 +1,6 @@
 //set default view of pizza nearby
 const initialState = {
-  filter: 'pizza',
+  filter: 'loading',
   beers: [],
   pizzas: []
 }

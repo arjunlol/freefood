@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { CollapsibleItem, Row, Col, Divider } from 'react-materialize'
-import Map from './Map.jsx';
 require('datejs');
 
 class Food extends Component{
@@ -16,7 +15,6 @@ class Food extends Component{
             {this._findDate(this.props.food.time)}
             <Divider/>
             {this.props.food.venue.address_1}
-            <Map/>
           </Col>
         </Row>
       </CollapsibleItem>
