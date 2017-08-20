@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import foods from './foods'
+import food from './food'
 
 const foodApp = combineReducers({
-  foods,
+  food,
 })
 
 export default foodApp

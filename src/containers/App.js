@@ -1,49 +1,58 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import PizzaList from './PizzaList.jsx';
-import './App.css';
+import '../styles/App.css';
+import { connect } from 'react-redux';
+import * as Actions from '../actions/index';
+import { bindActionCreators } from 'redux';
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      pizzas: [],
-      lat: null,
-      lon: null,
-    }
-  }
-
   componentWillMount() {
-    let options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
-    };
+    let lat = 43.6401590;
+    let lon = -79.3776580;
 
-    function success(pos) {
-      let crd = pos.coords;
-      fetch(`https://floating-castle-83222.herokuapp.com/food/${crd.latitude}/${crd.longitude}`, {credentials: 'include', mode: 'cors', 'Access-Control-Allow-Credentials': true })
-        .then((response) => response.json())
-        .then((pizzas) => {
-          this.setState({pizzas:pizzas})
-        })
-    }
+    fetch(`https://floating-castle-83222.herokuapp.com/food/pizza/${lat}/${lon}`, {credentials: 'include', mode: 'cors', 'Access-Control-Allow-Credentials': true })
+      .then((response) => response.json())
+      .then((pizzas) => {
+        this.props.actions.updatePizza(pizzas)
+      })
 
-    function error(err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
+    fetch(`https://floating-castle-83222.herokuapp.com/food/beer/${lat}/${lon}`, {credentials: 'include', mode: 'cors', 'Access-Control-Allow-Credentials': true })
+      .then((response) => response.json())
+      .then((beers) => {
+        this.props.actions.updateBeer(beers)
+      })
 
-    navigator.geolocation.getCurrentPosition(success.bind(this), error, options)
+    console.log(this.props)
   }
 
   render() {
     return (
         <div>
-          <PizzaList pizzas={this.state.pizzas}/>
+          <div>
+            <button onClick={() => this.props.actions.setFoodFilter('pizza')}>PIZZA</button>
+            <button onClick={() => this.props.actions.setFoodFilter('beer')}>BEER</button>
+          </div>
+          <div>
+            <PizzaList pizzas={this.props.filter === 'pizza' ? this.props.pizzas: this.props.beers}/>
+          </div>
         </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    filter: state.food.filter,
+    pizzas: state.food.pizzas,
+    beers: state.food.beers
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

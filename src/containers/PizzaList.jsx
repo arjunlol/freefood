@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Pizza from './Pizza.jsx';
-import { Collapsible } from 'react-materialize'
-
+import { Collapsible } from 'react-materialize';
 
 class PizzaList extends Component{
 

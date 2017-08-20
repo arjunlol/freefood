@@ -1,8 +1,20 @@
-let nextFoodId = 0
-export const addFood = text => {
+export const updatePizza = (pizzas) => {
   return {
-    type: 'ADD_FOOD',
-    id: nextFoodId++,
-    text
+    type: 'UPDATE_PIZZA',
+    pizzas
+  }
+}
+
+export const updateBeer = (beers) => {
+  return {
+    type: 'UPDATE_BEER',
+    beers
+  }
+}
+
+export const setFoodFilter = (filter) => {
+  return {
+    type: 'TOGGLE_FOOD',
+    filter
   }
 }
