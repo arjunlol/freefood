@@ -14,5 +14,6 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+//remove CDN cache
 unregister();
 
