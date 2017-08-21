@@ -9,22 +9,35 @@ import { Button, Icon, ProgressBar } from 'react-materialize';
 class App extends Component {
 
   componentWillMount() {
-    let lat = 43.6401590;
-    let lon = -79.3776580;
+    let options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
 
-    fetch(`https://floating-castle-83222.herokuapp.com/food/pizza/${lat}/${lon}`, {credentials: 'include', mode: 'cors', 'Access-Control-Allow-Credentials': true })
-      .then((response) => response.json())
-      .then((pizzas) => {
-        this.props.actions.updatePizza(pizzas);
-        //stay on loading filter until default pizza view loads
-        this.props.actions.setFoodFilter('pizza');
-      })
+    function success(pos) {
+      let crd = pos.coords;
+      fetch(`https://floating-castle-83222.herokuapp.com/food/pizza/${crd.latitude}/${crd.longitude}`, {credentials: 'include', mode: 'cors', 'Access-Control-Allow-Credentials': true })
+        .then((response) => response.json())
+        .then((pizzas) => {
+          this.props.actions.updatePizza(pizzas);
+          //stay on loading filter until default pizza view loads
+          this.props.actions.setFoodFilter('pizza');
+        })
 
-    fetch(`https://floating-castle-83222.herokuapp.com/food/beer/${lat}/${lon}`, {credentials: 'include', mode: 'cors', 'Access-Control-Allow-Credentials': true })
-      .then((response) => response.json())
-      .then((beers) => {
-        this.props.actions.updateBeer(beers);
-      })
+      fetch(`https://floating-castle-83222.herokuapp.com/food/beer/${crd.latitude}/${crd.longitude}`, {credentials: 'include', mode: 'cors', 'Access-Control-Allow-Credentials': true })
+        .then((response) => response.json())
+        .then((beers) => {
+          this.props.actions.updateBeer(beers);
+        })
+    }
+
+    function error(err) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    navigator.geolocation.getCurrentPosition(success.bind(this), error, options)
+
   }
 
   render() {
@@ -36,10 +49,12 @@ class App extends Component {
     } else {
       return (
         <div>
+          <div className = 'filter'>
             <Button onClick={() => this.props.actions.setFoodFilter('pizza')}>PIZZA <Icon left>local_pizza</Icon></Button>
             <Button onClick={() => this.props.actions.setFoodFilter('beer')}>BEER <Icon left>local_bar</Icon></Button>
-          <div>
-            <FoodList foods={this.props.filter === 'pizza' ? this.props.pizzas: this.props.beers}/>
+          </div>
+          <div className= 'food'>
+            <FoodList foods={this.props.filter === 'pizza' ? this.props.pizzas: this.props.beers} filter={this.props.filter}/>
           </div>
         </div>
       );

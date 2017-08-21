@@ -13,7 +13,7 @@ class FoodList extends Component{
   }
 
   _food = (food) => {
-    return (<Food food={food}/>)
+    return (<Food food={food} filter={this.props.filter}/>)
   }
 
 
